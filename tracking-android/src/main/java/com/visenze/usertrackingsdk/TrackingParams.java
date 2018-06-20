@@ -63,12 +63,12 @@ public class TrackingParams {
     /**
      * Transform the TrackingParams object to a key value pair
      * containing all the specified parameters and their corresponding value
-     * @param accessKey
+     * @param initMap a init mapping from UserEventTracker
      * @return a mapping represents all the parameters
      */
-    public Map<String, String> toMap(String accessKey) {
+    public Map<String, String> toMap(HashMap<String, String> initMap) {
         Map<String, String> map = new HashMap<>();
-        map.put("cid", accessKey);
+        map.putAll(initMap);
 
         if (cuid != null) {
             map.put("cuid", cuid);
