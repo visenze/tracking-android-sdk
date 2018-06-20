@@ -1,15 +1,17 @@
 apply plugin: 'com.android.library'
 
+def versionMajor = 0
+def versionMinor = 0
+def versionPatch = 2
+version = '0.0.2'
+
 android {
     compileSdkVersion 27
-
-
-
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -33,3 +35,25 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+ext {
+    bintrayUserOrg = "visenze"
+    bintrayRepo = "maven"
+    bintrayName = "com.visenze:tracking-android"
+    bintrayWebsiteUrl = 'https://github.com/visenze/tracking-android-sdk'
+    bintrayVcsUrl = 'https://github.com/visenze/tracking-android-sdk'
+    bintrayIssueTrackerUrl = 'https://github.com/visenze/tracking-android-sdk/issues'
+    bintrayLabels = ['visenze', 'tracking', 'sdk', 'android']
+
+    publishedGroupId = 'com.visenze'
+    artifact = 'tracking-android'
+
+    libraryName = 'tracking-android'
+    libraryDescription = 'Visenze Tracking Android SDK'
+    libraryVersion = "${versionMajor}.${versionMinor}.${versionPatch}"
+
+    developerId = 'visenze'
+    developerName = 'ViSenze'
+}
+
+apply from: '../tools/bintray.gradle'
