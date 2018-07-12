@@ -20,6 +20,8 @@ pipeline {
 
   parameters {
     string(name: 'AGENT_LABEL', defaultValue: 'build')
+    string(name: 'BINTRAY_CERDENTIAL_ID', defaultValue: 'visenze-jfrog-bintray',
+        description: 'The jenkins credential ID to push to bintray')
   }
 
   stages {
@@ -33,6 +35,21 @@ pipeline {
       steps {
         script {
           sh "./gradlew assemble"
+        }
+      }
+    }
+
+    stage('Push to Bintray') {
+      when {
+        expression {
+          params.BINTRAY_CERDENTIAL_ID
+        }
+      }
+      steps {
+        script {
+          withCredentials([usernamePassword(credentialsId: params.BINTRAY_CERDENTIAL_ID, usernameVariable: 'bintrayUser', passwordVariable: 'bintrayKey')]) {
+            sh "./gradlew bintrayUpload -PbintrayUser=${bintrayUser} -PbintrayKey=${bintrayKey}"
+          }
         }
       }
     }
