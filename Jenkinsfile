@@ -20,6 +20,7 @@ pipeline {
 
   parameters {
     string(name: 'AGENT_LABEL', defaultValue: 'build')
+    booleanParam(name: 'BINTRAY_PUBLISH', defaultValue: false)
     string(name: 'BINTRAY_CERDENTIAL_ID', defaultValue: 'visenze-jfrog-bintray',
         description: 'The jenkins credential ID to push to bintray')
   }
@@ -42,7 +43,7 @@ pipeline {
     stage('Push to Bintray') {
       when {
         expression {
-          params.BINTRAY_CERDENTIAL_ID
+          params.BINTRAY_PUBLISH
         }
       }
       steps {
