@@ -2,11 +2,13 @@ package com.visenze.usertrackingsdk;
 
 import android.content.Context;
 
+import java.util.HashMap;
+
 /**
  * Created by visenze on 26/2/16.
  */
 public class UserEventTracker {
-    private String accessKey;
+    private HashMap<String, String> initParams;
 
     /**
      * volley http instance
@@ -18,11 +20,13 @@ public class UserEventTracker {
     /**
      * Create a user event tracker
      * @param context
-     * @param accessKey An identify assigned by visenze for each e-commerce provider
-     *            e.g. app key
+     * @param initParams An init mapping and it must contain at least one mapping
      */
-    public UserEventTracker(Context context, String accessKey) {
-        this.accessKey = accessKey;
+    public UserEventTracker(Context context, HashMap<String, String> initParams) throws Exception {
+        if(initParams.size() < 1) {
+            throw new Exception("Invalid initParams");
+        }
+        this.initParams = initParams;
         this.httpInstance = HttpInstance.getInstance(context.getApplicationContext());
         UIDManager.initUIDManager(context);
     }
@@ -30,19 +34,18 @@ public class UserEventTracker {
     /**
      * Create a user event tracker
      * @param context
-     * @param accessKey An identify assigned by visenze for each e-commerce provider
-     *            e.g. app key
+     * @param initParams An init mapping
      * @param endPoint The end point for receiving tracking statistics
      */
-    public UserEventTracker(Context context, String accessKey, String endPoint) {
-        this.accessKey = accessKey;
+    public UserEventTracker(Context context, HashMap<String, String> initParams, String endPoint) {
+        this.initParams = initParams;
         this.httpInstance = HttpInstance.getInstance(context.getApplicationContext());
         this.endPoint = endPoint;
         UIDManager.initUIDManager(context);
     }
 
     public void track(TrackingParams trackParams) {
-        httpInstance.addGetRequestToQueueWithoutResponse(endPoint, trackParams.toMap(accessKey));
+        httpInstance.addGetRequestToQueueWithoutResponse(endPoint, trackParams.toMap(initParams));
     }
 }
 
