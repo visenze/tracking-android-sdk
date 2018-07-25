@@ -2,8 +2,8 @@ apply plugin: 'com.android.library'
 
 def versionMajor = 0
 def versionMinor = 0
-def versionPatch = 3
-version = '0.0.3'
+def versionPatch = 5
+version = '0.0.5'
 
 android {
     compileSdkVersion 27
@@ -45,7 +45,7 @@ ext {
     bintrayIssueTrackerUrl = 'https://github.com/visenze/tracking-android-sdk/issues'
     bintrayLabels = ['visenze', 'tracking', 'sdk', 'android']
 
-    publishedGroupId = 'com.visenze'
+    publishedGroupId = 'com.visenze.tracking'
     artifact = 'tracking-android'
 
     libraryName = 'tracking-android'
